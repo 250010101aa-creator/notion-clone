@@ -4,12 +4,13 @@ import { useCreateBlockNote } from '@blocknote/react'
 import { BlockNoteView } from '@blocknote/mantine'
 import '@blocknote/mantine/style.css'
 import { api } from '../api.js'
-import { PagesContext } from '../App.jsx'
+import { PagesContext, ThemeContext } from '../App.jsx'
 
 export default function PageEditor() {
   const { id } = useParams()
   const navigate = useNavigate()
   const { refreshPages } = useContext(PagesContext)
+  const { dark } = useContext(ThemeContext)
   const [page, setPage] = useState(null)
   const [title, setTitle] = useState('')
   const [loading, setLoading] = useState(true)
@@ -67,8 +68,8 @@ export default function PageEditor() {
     navigate(`/db/${db.id}`)
   }
 
-  if (loading) return <p style={{ color: '#888' }}>Loading...</p>
-  if (!page) return <p>Page not found.</p>
+  if (loading) return <p style={{ color: 'var(--text-muted)' }}>Loading...</p>
+  if (!page) return <p style={{ color: 'var(--text)' }}>Page not found.</p>
 
   return (
     <div style={{ maxWidth: 720, margin: '0 auto' }}>
@@ -81,28 +82,29 @@ export default function PageEditor() {
         style={{
           fontSize: 36, fontWeight: 700, border: 'none', outline: 'none',
           width: '100%', marginBottom: 16, background: 'transparent',
-          fontFamily: 'inherit'
+          fontFamily: 'inherit', color: 'var(--text)'
         }}
       />
       <div style={{ minHeight: 400 }}>
         <BlockNoteView
           editor={editor}
           onChange={scheduleBlockSave}
+          theme={dark ? 'dark' : 'light'}
         />
       </div>
-      <div style={{ marginTop: 32, paddingTop: 16, borderTop: '1px solid #eee' }}>
+      <div style={{ marginTop: 32, paddingTop: 16, borderTop: '1px solid var(--border)' }}>
         <button
           onClick={createDatabase}
           style={{
-            padding: '6px 14px', cursor: 'pointer', border: '1px solid #ddd',
-            borderRadius: 6, background: 'none', color: '#555', fontSize: 13
+            padding: '6px 14px', cursor: 'pointer', border: '1px solid var(--btn-border)',
+            borderRadius: 6, background: 'none', color: 'var(--btn-color)', fontSize: 13
           }}
         >
           + Add database
         </button>
       </div>
       {saveStatus && (
-        <p style={{ color: '#aaa', fontSize: 12, marginTop: 8 }}>{saveStatus}</p>
+        <p style={{ color: 'var(--text-faint)', fontSize: 12, marginTop: 8 }}>{saveStatus}</p>
       )}
     </div>
   )

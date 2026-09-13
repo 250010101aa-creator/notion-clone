@@ -21,7 +21,7 @@ function Cell({ value, type, onChange }) {
         type="date"
         value={value || ''}
         onChange={e => onChange(e.target.value)}
-        style={{ border: 'none', outline: 'none', width: '100%', background: 'transparent', fontFamily: 'inherit', fontSize: 14 }}
+        style={{ border: 'none', outline: 'none', width: '100%', background: 'transparent', fontFamily: 'inherit', fontSize: 14, color: 'var(--text)' }}
       />
     )
   }
@@ -30,7 +30,7 @@ function Cell({ value, type, onChange }) {
       type={type === 'number' ? 'number' : 'text'}
       value={value ?? ''}
       onChange={e => onChange(type === 'number' ? Number(e.target.value) : e.target.value)}
-      style={{ border: 'none', outline: 'none', width: '100%', background: 'transparent', fontFamily: 'inherit', fontSize: 14 }}
+      style={{ border: 'none', outline: 'none', width: '100%', background: 'transparent', fontFamily: 'inherit', fontSize: 14, color: 'var(--text)' }}
     />
   )
 }
@@ -81,12 +81,12 @@ export default function DatabaseView() {
     setRows(rs => rs.filter(r => r.id !== rowId))
   }
 
-  if (loading) return <p style={{ color: '#888' }}>Loading...</p>
+  if (loading) return <p style={{ color: 'var(--text-muted)' }}>Loading...</p>
 
   const cell = {
     padding: '8px 12px',
-    borderRight: '1px solid #e0e0e0',
-    borderBottom: '1px solid #e0e0e0',
+    borderRight: '1px solid var(--cell-border)',
+    borderBottom: '1px solid var(--cell-border)',
     minWidth: 120
   }
 
@@ -99,24 +99,25 @@ export default function DatabaseView() {
         onKeyDown={e => e.key === 'Enter' && e.target.blur()}
         style={{
           fontSize: 32, fontWeight: 700, border: 'none', outline: 'none',
-          marginBottom: 20, background: 'transparent', width: '100%', fontFamily: 'inherit'
+          marginBottom: 20, background: 'transparent', width: '100%', fontFamily: 'inherit',
+          color: 'var(--text)'
         }}
       />
 
       {schema.length === 0 ? (
-        <p style={{ color: '#aaa', fontSize: 14 }}>No columns yet. Click "+ Add column" to start.</p>
+        <p style={{ color: 'var(--text-faint)', fontSize: 14 }}>No columns yet. Click "+ Add column" to start.</p>
       ) : (
         <div style={{ overflowX: 'auto', marginBottom: 12 }}>
           <table style={{
-            borderCollapse: 'collapse', borderTop: '1px solid #e0e0e0',
-            borderLeft: '1px solid #e0e0e0', minWidth: '100%'
+            borderCollapse: 'collapse', borderTop: '1px solid var(--cell-border)',
+            borderLeft: '1px solid var(--cell-border)', minWidth: '100%'
           }}>
             <thead>
-              <tr style={{ background: '#f4f4f4' }}>
+              <tr style={{ background: 'var(--header-bg)' }}>
                 {schema.map(col => (
-                  <th key={col.name} style={{ ...cell, fontWeight: 600, textAlign: 'left', fontSize: 13 }}>
+                  <th key={col.name} style={{ ...cell, fontWeight: 600, textAlign: 'left', fontSize: 13, color: 'var(--text)' }}>
                     {col.name}
-                    <span style={{ color: '#bbb', fontWeight: 400, marginLeft: 6 }}>{col.type}</span>
+                    <span style={{ color: 'var(--text-faint)', fontWeight: 400, marginLeft: 6 }}>{col.type}</span>
                   </th>
                 ))}
                 <th style={{ ...cell, width: 36 }} />
@@ -124,7 +125,7 @@ export default function DatabaseView() {
             </thead>
             <tbody>
               {rows.map(row => (
-                <tr key={row.id} style={{ background: '#fff' }}>
+                <tr key={row.id} style={{ background: 'var(--row-bg)' }}>
                   {schema.map(col => (
                     <td key={col.name} style={cell}>
                       <Cell
@@ -145,7 +146,7 @@ export default function DatabaseView() {
               ))}
               {rows.length === 0 && (
                 <tr>
-                  <td colSpan={schema.length + 1} style={{ ...cell, color: '#bbb', fontSize: 13, textAlign: 'center' }}>
+                  <td colSpan={schema.length + 1} style={{ ...cell, color: 'var(--text-faint)', fontSize: 13, textAlign: 'center' }}>
                     No rows yet
                   </td>
                 </tr>
@@ -159,13 +160,13 @@ export default function DatabaseView() {
         <button
           onClick={addRow}
           disabled={schema.length === 0}
-          style={{ padding: '6px 14px', cursor: schema.length ? 'pointer' : 'not-allowed', border: '1px solid #ddd', borderRadius: 6, background: 'none', color: '#555', fontSize: 13 }}
+          style={{ padding: '6px 14px', cursor: schema.length ? 'pointer' : 'not-allowed', border: '1px solid var(--btn-border)', borderRadius: 6, background: 'none', color: 'var(--btn-color)', fontSize: 13 }}
         >
           + Add row
         </button>
         <button
           onClick={addColumn}
-          style={{ padding: '6px 14px', cursor: 'pointer', border: '1px solid #ddd', borderRadius: 6, background: 'none', color: '#555', fontSize: 13 }}
+          style={{ padding: '6px 14px', cursor: 'pointer', border: '1px solid var(--btn-border)', borderRadius: 6, background: 'none', color: 'var(--btn-color)', fontSize: 13 }}
         >
           + Add column
         </button>
