@@ -1,4 +1,6 @@
 notion.db
+notion.db-shm
+notion.db-wal
 node_modules
 dist
 .DS_Store
